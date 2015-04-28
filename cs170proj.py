@@ -184,6 +184,14 @@ def readFile(file):
     f = open(file, "r")
     return f.read()
 
+def solveFromFile(file, doBruteForce):
+    st = f.read().strip()
+    if doBruteForce:
+        brute_force_solve_str(st)
+    print greedy_solve_str(st)
+    print greedy_solve_all_str(st)
+    print swap_2opt_solve_str(st)
+
 if __name__ == '__main__':
     graph = generate_graph(8,0,100)
     print brute_force_solve_str(graph)
