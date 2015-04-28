@@ -59,7 +59,7 @@ def initLearner(n, stop):
 
 	#hay algun?
 	if os.path.isfile(get_graph_file(0)):
-		arr = load_graphs()
+		arr = load_graphs(n)
 	else:
 		arr = generate_graphs(n)
 
