@@ -112,6 +112,12 @@ def brute_force_solve_str(str):
     dic = parse_graph(str)
     return min([[item, get_cost_graph(dic['arr'], item)] for item in list(permutations(range(dic['size']))) if is_valid_path(dic['colors'], item)], key=lambda x: x[1])
 
+def brute_force_solve_str_all(str):
+	dic = parse_graph(str)
+	solns = [[item, get_cost_graph(dic['arr'], item)] for item in list(permutations(range(dic['size']))) if is_valid_path(dic['colors'], item)]
+	min_value = min(solns,key=lambda x: x[1])[1]
+	return filter(lambda (x,y): y == min_value, solns)
+
 def parse_graph(str):
     lines = str.split("\n")
     n = int(lines[0])
@@ -183,14 +189,6 @@ def writeFile(file, str):
 def readFile(file):
     f = open(file, "r")
     return f.read()
-
-def solveFromFile(file, doBruteForce):
-    st = f.read().strip()
-    if doBruteForce:
-        brute_force_solve_str(st)
-    print greedy_solve_str(st)
-    print greedy_solve_all_str(st)
-    print swap_2opt_solve_str(st)
 
 if __name__ == '__main__':
     graph = generate_graph(8,0,100)
