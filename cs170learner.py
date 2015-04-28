@@ -30,7 +30,7 @@ def ensure_dir(f):
 def evaluate(str):
 	return (swap_2opt_solve_str(str)[1] - greedy_solve_str(str)[1])**2
 
-def load_graphs():
+def load_graphs(n):
 	i = 0
 	arr = []
 	while os.path.isfile(get_graph_file(i)):
@@ -38,6 +38,11 @@ def load_graphs():
 		score = evaluate(st)
 		arr.append([st, score])
 		i += 1
+	for j in range(i, n):
+		st = generate_graph(50, 0, 100)
+		writeFile(get_graph_file(i), st)
+		score = evaluate(st)
+		arr.append([st, score])
 	return arr
 
 def generate_graphs(number):
