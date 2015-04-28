@@ -185,6 +185,7 @@ def readFile(file):
     return f.read()
 
 def solveFromFile(file, doBruteForce):
+    f = open(file, "r")
     st = f.read().strip()
     if doBruteForce:
         brute_force_solve_str(st)
