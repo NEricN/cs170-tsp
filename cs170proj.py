@@ -199,14 +199,30 @@ def solveFromFile(file, doBruteForce):
     print greedy_solve_all_str(st)
     print swap_2opt_solve_str(st)
 
-if __name__ == '__main__':
-    graph = generate_graph(8,0,100)
-    print brute_force_solve_str(graph)
-    print greedy_solve_str(graph)
-    print swap_2opt_solve_str(graph)
-    print greedy_solve_all_str(graph)
+def solveFromFileForLength(file):
+    f = open(file, "r")
+    st = f.read().strip()
+    return greedy_solve_str(st)[1] - swap_2opt_solve_str(st)[1]
 
-    graph = generate_graph(50,0,100)
-    print greedy_solve_str(graph)
-    print swap_2opt_solve_str(graph)
-    print greedy_solve_all_str(graph)
+
+def getBestGraphs():
+    lst = []
+    i = 0
+    while i < 100:
+        print(i)
+        lst.append((solveFromFileForLength("./bestgraphs/graph"+str(i)+".txt"), i))
+        i += 1
+    lst = sorted(lst, reverse=True)
+    print lst
+
+# if __name__ == '__main__':
+#     graph = generate_graph(8,0,100)
+#     print brute_force_solve_str(graph)
+#     print greedy_solve_str(graph)
+#     print swap_2opt_solve_str(graph)
+#     print greedy_solve_all_str(graph)
+
+#     graph = generate_graph(50,0,100)
+#     print greedy_solve_str(graph)
+#     print swap_2opt_solve_str(graph)
+#     print greedy_solve_all_str(graph)
