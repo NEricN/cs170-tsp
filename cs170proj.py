@@ -113,10 +113,10 @@ def brute_force_solve_str(str):
     return min([[item, get_cost_graph(dic['arr'], item)] for item in list(permutations(range(dic['size']))) if is_valid_path(dic['colors'], item)], key=lambda x: x[1])
 
 def brute_force_solve_str_all(str):
-	dic = parse_graph(str)
-	solns = [[item, get_cost_graph(dic['arr'], item)] for item in list(permutations(range(dic['size']))) if is_valid_path(dic['colors'], item)]
-	min_value = min(solns,key=lambda x: x[1])[1]
-	return filter(lambda (x,y): y == min_value, solns)
+    dic = parse_graph(str)
+    solns = [[item, get_cost_graph(dic['arr'], item)] for item in list(permutations(range(dic['size']))) if is_valid_path(dic['colors'], item)]
+    min_value = min(solns,key=lambda x: x[1])[1]
+    return filter(lambda (x,y): y == min_value, solns)
 
 def parse_graph(str):
     lines = str.split("\n")
@@ -215,14 +215,14 @@ def getBestGraphs():
     lst = sorted(lst, reverse=True)
     print lst
 
-# if __name__ == '__main__':
-#     graph = generate_graph(8,0,100)
-#     print brute_force_solve_str(graph)
-#     print greedy_solve_str(graph)
-#     print swap_2opt_solve_str(graph)
-#     print greedy_solve_all_str(graph)
+if __name__ == '__main__':
+    graph = generate_graph(8,0,100)
+    print brute_force_solve_str(graph)
+    print greedy_solve_str(graph)
+    print swap_2opt_solve_str(graph)
+    print greedy_solve_all_str(graph)
 
-#     graph = generate_graph(50,0,100)
-#     print greedy_solve_str(graph)
-#     print swap_2opt_solve_str(graph)
-#     print greedy_solve_all_str(graph)
+    graph = generate_graph(50,0,100)
+    print greedy_solve_str(graph)
+    print swap_2opt_solve_str(graph)
+    print greedy_solve_all_str(graph)
