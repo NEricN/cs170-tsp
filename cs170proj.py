@@ -313,18 +313,18 @@ def readAllFiles():
         i += 1
     writeFile("./answer.out", final_str)
 
-if __name__ == '__main__':
-    graph = generate_graph(8,0,50)
-    print brute_force_solve_str(graph)
-    print greedy_solve_str(graph)
-    print swap_2opt_solve_str(graph)
-    print greedy_solve_all_str(graph)
-    print swap_kopt_solve_str(graph)
+# if __name__ == '__main__':
+#     graph = generate_graph(8,0,50)
+#     print brute_force_solve_str(graph)
+#     print greedy_solve_str(graph)
+#     print swap_2opt_solve_str(graph)
+#     print greedy_solve_all_str(graph)
+#     print swap_kopt_solve_str(graph)
 
-    graph = generate_graph(50,0,100)
-    print greedy_solve_str(graph)
-    print swap_2opt_solve_str(graph)
-    print greedy_solve_all_str(graph)
-    a = time.clock()
-    print swap_kopt_solve_str(graph)
-    print str(time.clock() - a)
+#     graph = generate_graph(50,0,100)
+#     print greedy_solve_str(graph)
+#     print swap_2opt_solve_str(graph)
+#     print greedy_solve_all_str(graph)
+#     a = time.clock()
+#     print swap_kopt_solve_str(graph)
+#     print str(time.clock() - a)
