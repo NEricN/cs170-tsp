@@ -181,6 +181,37 @@ def generate_graph(size, minDist, maxDist):
         return solution
     return generate_graph(size, minDist, maxDist)
 
+def generate_graph_with_path(size, minDist, maxDist):
+    # Abandoned with bug
+    count = 100
+    arr = [[str(count) for i in range(size)] for item in range(size)]
+    for i in range(size):
+        rand = randint(0, size-1)
+        arr[i][rand] = str(randint(minDist, maxDist/2))
+        arr[i][i] = "0"
+        for j in range(size):
+            arr[j][i] = arr[i][j]
+    colors = "R"*(size/2) + "B"*(size/2)
+    colors = list(colors)
+    shuffle(colors)
+    solution = str(size) + "\n" + "\n".join([' '.join(row) for row in arr]) + "\n" + ''.join(colors)
+    validity = check_valid(solution)
+    if validity[0]:
+        while (greedy_solve_str(solution)[1] - swap_2opt_solve_str(solution)[1] == 0) and (count > maxDist/2):
+            arr = parse_graph(solution)['arr']
+            for i in range(size):
+                for j in range(size):
+                    if arr[j][i] == count:
+                        arr[j][i] -= 1
+                        arr[i][j] -= 1
+                    arr[j][i] = str(arr[j][i])
+                    arr[i][j] = str(arr[i][j])
+            count -= 1
+            solution = str(size) + "\n" + "\n".join([' '.join(row) for row in arr]) + "\n" + ''.join(colors)
+            print(solution)
+        return solution
+    return generate_graph_with_path(size, minDist, maxDist)
+
 def writeFile(file, str):
     f = open(file, "w")
     f.write(str)
@@ -204,6 +235,15 @@ def solveFromFileForLength(file):
     st = f.read().strip()
     return greedy_solve_str(st)[1] - swap_2opt_solve_str(st)[1]
 
+def solveFromFileBest(file):
+    f = open(file, "r")
+    st = f.read().strip()
+    greed = greedy_solve_str(st)
+    two_opt = swap_2opt_solve_str(st)
+    if greed[1] < two_opt[1]:
+        return greed[0]
+    else:
+        return two_opt[0]
 
 def getBestGraphs():
     lst = []
@@ -215,8 +255,16 @@ def getBestGraphs():
     lst = sorted(lst, reverse=True)
     print lst
 
+def readAllFiles():
+    final_str = ""
+    while i < 496:
+        print(i)
+        final_str += solveFromFileBest("./instances/"+str(i)+".in") +"\n"
+        i += 1
+    writeFile("./answer.out", final_str)
+
 if __name__ == '__main__':
-    graph = generate_graph(8,0,100)
+    graph = generate_graph(8,0,50)
     print brute_force_solve_str(graph)
     print greedy_solve_str(graph)
     print swap_2opt_solve_str(graph)
