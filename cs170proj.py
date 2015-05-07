@@ -9,7 +9,7 @@ import time
 import sys
 
 def swap_3opt(path, i, j, k):
-    return [path[:i] + t[0] + t[1] + t[2] for t in list(permutations([path[i-1:j], path[j-1:k], path[k+1:]]))]# + list(permutations([path[:i], path[j:i-1:-1], path[j-1:k], path[k+1:]])) + list(permutations([path[:i], path[j:i-1:-1], path[k:j-1:-1], path[k+1:]])) + list(permutations([path[:i], path[i-1:j], path[k:j-1:-1], path[k+1:]]))
+    return [path[:i] + t[0] + t[1] + t[2] for t in list(permutations([path[i:j], path[j:k], path[k:]]))]# + list(permutations([path[:i], path[j:i-1:-1], path[j-1:k], path[k+1:]])) + list(permutations([path[:i], path[j:i-1:-1], path[k:j-1:-1], path[k+1:]])) + list(permutations([path[:i], path[i-1:j], path[k:j-1:-1], path[k+1:]]))
 
 def swap_3opt_optimize_path(path, arr, colors, size):
     best_distance = get_cost_graph(arr, path)
@@ -138,7 +138,8 @@ def greedy_solve_from_point(index, arr, colors, size):
         else:
             choices = [[i, d] for i,d in enumerate(arr[cur_node]) if i not in path and colors[i] != color]
         if len(choices) == 0:
-           return [[], float("infinity")] 
+            print path
+            return [[], float("infinity")] 
         new_node = min(choices,key=lambda x: x[1])
         path.append(new_node[0])
         if colors[new_node[0]] == color:
@@ -333,7 +334,8 @@ def readAllFiles():
     writeFile("./answer.out", final_str)
 
 if __name__ == '__main__':
-    solveFromFiles(23,50)
+    solveFromFiles(233, 234)
+    solveFromFiles(402, 403)
 #     graph = generate_graph(8,0,50)
 #     print brute_force_solve_str(graph)
 #     print greedy_solve_str(graph)
