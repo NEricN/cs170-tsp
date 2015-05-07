@@ -31,7 +31,7 @@ def swap_3opt_optimize_path(path, arr, colors, size):
 
                     if(get_cost_graph(arr, new_route) < best_distance):
                         return new_route"""
-    print "finished 1 3opt"
+    #print "finished 1 3opt"
     return path
 
 def swap_kopt_solve_path(arr, colors, size, path):
@@ -117,7 +117,10 @@ return tree
 """
 
 def get_cost_graph(arr, path):
-    return reduce(lambda p1, p2: [p2[0], arr[p1[0]][p2[0]]+p1[1]], [[i,0] for i in path])[1]
+    su = 0
+    for i in range(len(path) - 1):
+        su += arr[path[i]][path[i+1]]
+    return su
 
 def is_valid_path(colors, path):
     color = [colors[p] for p in path]
@@ -167,7 +170,7 @@ def brute_force_solve_str_all(str):
     return filter(lambda (x,y): y == min_value, solns)
 
 def parse_graph(str):
-    lines = str.split("\n")
+    lines = str.strip().split("\n")
     n = int(lines[0])
     colors = lines.pop()
     arr = [[int(a) for a in li.strip().split(" ")] for li in lines[1:]]
@@ -303,6 +306,14 @@ def getBestGraphs():
     lst = sorted(lst, reverse=True)
     print lst
 
+def solveFromFiles(i, j):
+    for k in range(i, j):
+        a = time.clock()
+        st = readFile("./instances/"+str(k)+".in")
+        sol = swap_kopt_solve_str(st)
+        writeFile("./solutions/"+str(k)+".out", str(sol))
+        print "Solved " + str(k) + " in " + str(time.clock()-a) + "s"
+
 def readAllFiles():
     final_str = ""
     i = 1
@@ -313,7 +324,8 @@ def readAllFiles():
         i += 1
     writeFile("./answer.out", final_str)
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
+    solveFromFiles(2,20)
 #     graph = generate_graph(8,0,50)
 #     print brute_force_solve_str(graph)
 #     print greedy_solve_str(graph)
