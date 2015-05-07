@@ -122,7 +122,7 @@ def parse_graph(str):
     lines = str.split("\n")
     n = int(lines[0])
     colors = lines.pop()
-    arr = [[int(a) for a in li.split(" ")] for li in lines[1:]]
+    arr = [[int(a) for a in li.strip().split(" ")] for li in lines[1:]]
     return {'size' : n, 'colors' : colors, 'arr' : arr}
 
 def check_valid(str):
@@ -219,15 +219,15 @@ def writeFile(file, str):
 
 def readFile(file):
     f = open(file, "r")
-    return f.read()
+    return f.read().replace("\r", "")
 
 def solveFromFile(file, doBruteForce):
     f = open(file, "r")
     st = f.read().strip()
     if doBruteForce:
         print brute_force_solve_str_all(st)
-    print greedy_solve_str(st)
-    print greedy_solve_all_str(st)
+    # print greedy_solve_str(st)
+    # print greedy_solve_all_str(st)
     print swap_2opt_solve_str(st)
 
 def solveFromFileForLength(file):
@@ -257,9 +257,11 @@ def getBestGraphs():
 
 def readAllFiles():
     final_str = ""
+    i = 1
     while i < 496:
-        print(i)
-        final_str += solveFromFileBest("./instances/"+str(i)+".in") +"\n"
+        if i !=  2 and i != 10:
+            print(i)
+            final_str += str(solveFromFileBest("./instances/"+str(i)+".in")) +"\n"
         i += 1
     writeFile("./answer.out", final_str)
 
