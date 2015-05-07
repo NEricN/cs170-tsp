@@ -46,6 +46,8 @@ def swap_kopt_solve_path(arr, colors, size, path):
                 path = new_path
             else:
                 break
+    if not is_valid_path(colors, path):
+        print "NOT VALID"
     return [path, get_cost_graph(arr, path)]
 
 def swap_kopt_solve_str(str):
@@ -138,8 +140,17 @@ def greedy_solve_from_point(index, arr, colors, size):
         else:
             choices = [[i, d] for i,d in enumerate(arr[cur_node]) if i not in path and colors[i] != color]
         if len(choices) == 0:
-            print path
-            return [[], float("infinity")] 
+            #print path
+            temp = range(size)
+            while not is_valid_path(colors, temp):
+                shuffle(temp)
+            return [temp, get_cost_graph(arr, temp)]
+            #choices = [[i, d] for i,d in enumerate(arr[cur_node]) if i not in path]
+            #return [[], float("infinity")]
+            #a = path.pop()
+            #forbidden.append(a)
+            #continue
+        forbidden = []
         new_node = min(choices,key=lambda x: x[1])
         path.append(new_node[0])
         if colors[new_node[0]] == color:
@@ -334,8 +345,8 @@ def readAllFiles():
     writeFile("./answer.out", final_str)
 
 if __name__ == '__main__':
-    solveFromFiles(233, 234)
-    solveFromFiles(402, 403)
+    solveFromFiles(2, 3)
+    #solveFromFiles(300, 450)
 #     graph = generate_graph(8,0,50)
 #     print brute_force_solve_str(graph)
 #     print greedy_solve_str(graph)
