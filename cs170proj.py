@@ -1,10 +1,58 @@
 from random import randint, random, shuffle
 from itertools import permutations, groupby
 
+import time
+
 #from UnionFind import UnionFind
 #from Graphs import isUndirected
 
 import sys
+
+def swap_3opt(path, i, j, k):
+    return [path[:i] + t[0] + t[1] + t[2] for t in list(permutations([path[i-1:j], path[j-1:k], path[k+1:]]))]# + list(permutations([path[:i], path[j:i-1:-1], path[j-1:k], path[k+1:]])) + list(permutations([path[:i], path[j:i-1:-1], path[k:j-1:-1], path[k+1:]])) + list(permutations([path[:i], path[i-1:j], path[k:j-1:-1], path[k+1:]]))
+
+def swap_3opt_optimize_path(path, arr, colors, size):
+    best_distance = get_cost_graph(arr, path)
+    for i in range(1, size - 2):
+        for j in range(i+1, size - 1):
+            for k in range(j+1, size):
+                #print str(i) + " " + str(j) + " " + str(k)
+                new_routes = swap_3opt(path, i, j, k)
+                for l in range(6):
+                    #new_routes[l] = new_routes[l][0] + new_routes[l][1] + new_routes[l][2] + new_routes[l][3]
+                    if is_valid_path(colors, new_routes[l]):
+                        if get_cost_graph(arr, new_routes[l]) < best_distance:
+                            return new_routes[l]
+                            """best_path = new_routes[l]
+                            best_distance = get_cost_graph(arr, new_routes[l])
+                new_routes = [sum(route, []) for route in new_routes if is_valid_path(colors, sum(route, []))]
+                if len(new_routes):
+                    new_route = min(new_routes,key=lambda x: get_cost_graph(arr, x))
+
+                    if(get_cost_graph(arr, new_route) < best_distance):
+                        return new_route"""
+    print "finished 1 3opt"
+    return path
+
+def swap_kopt_solve_path(arr, colors, size, path):
+    best_distance = get_cost_graph(arr, path)
+    while True:
+        new_path = swap_2opt_optimize_path(path, arr, colors, size)
+        if new_path != path:
+            path = new_path
+        else:
+            new_path = swap_3opt_optimize_path(path, arr, colors, size)
+            if new_path != path:
+                path = new_path
+            else:
+                break
+    return [path, get_cost_graph(arr, path)]
+
+def swap_kopt_solve_str(str):
+    dic = parse_graph(str)
+    path,best_distance = greedy_solve_str(str)
+    return swap_kopt_solve_path(dic['arr'], dic['colors'], dic['size'], path)
+
 
 def swap_2opt(path, i, j):
     return path[:i] + path[j:i-1:-1] + path[j+1:]
@@ -271,8 +319,12 @@ if __name__ == '__main__':
     print greedy_solve_str(graph)
     print swap_2opt_solve_str(graph)
     print greedy_solve_all_str(graph)
+    print swap_kopt_solve_str(graph)
 
     graph = generate_graph(50,0,100)
     print greedy_solve_str(graph)
     print swap_2opt_solve_str(graph)
     print greedy_solve_all_str(graph)
+    a = time.clock()
+    print swap_kopt_solve_str(graph)
+    print str(time.clock() - a)
