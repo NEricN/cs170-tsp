@@ -331,6 +331,8 @@ def readAllSolutions(mx):
     for i in range(1, mx):
         st = readFile("./solutions/"+str(i)+".out")
         arr = eval(st)[0]
+        if 0 in arr:
+            arr = [j + 1 for j in arr]
         sol += ' '.join([str(j) for j in arr]) + "\n"
     writeFile("./masterOutput.out", sol)
 
@@ -345,7 +347,9 @@ def readAllFiles():
     writeFile("./answer.out", final_str)
 
 if __name__ == '__main__':
-    solveFromFiles(2, 3)
+    readAllSolutions(496)
+    #solveFromFiles(41, 42)
+
     #solveFromFiles(300, 450)
 #     graph = generate_graph(8,0,50)
 #     print brute_force_solve_str(graph)
