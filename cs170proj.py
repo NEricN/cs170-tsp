@@ -170,10 +170,10 @@ def brute_force_solve_str_all(str):
     return filter(lambda (x,y): y == min_value, solns)
 
 def parse_graph(str):
-    lines = str.strip().split("\n")
+    lines = str.strip().replace("\r", "").split("\n")
     n = int(lines[0])
     colors = lines.pop()
-    arr = [[int(a) for a in li.replace("\t", " ").strip().split(" ")] for li in lines[1:]]
+    arr = [[int(a) for a in li.replace("\t", " ").strip().split()] for li in lines[1:]]
     return {'size' : n, 'colors' : colors, 'arr' : arr}
 
 def check_valid(str):
