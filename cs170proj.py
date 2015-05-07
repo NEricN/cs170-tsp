@@ -314,6 +314,14 @@ def solveFromFiles(i, j):
         writeFile("./solutions/"+str(k)+".out", str(sol))
         print "Solved " + str(k) + " in " + str(time.clock()-a) + "s"
 
+def readAllSolutions(mx):
+    sol = ""
+    for i in range(1, mx):
+        st = readFile("./solutions/"+str(i)+".out")
+        arr = eval(st)[0]
+        sol += ' '.join([str(j) for j in arr]) + "\n"
+    writeFile("./masterOutput.out", sol)
+
 def readAllFiles():
     final_str = ""
     i = 1
