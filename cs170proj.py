@@ -173,7 +173,7 @@ def parse_graph(str):
     lines = str.strip().split("\n")
     n = int(lines[0])
     colors = lines.pop()
-    arr = [[int(a) for a in li.strip().split(" ")] for li in lines[1:]]
+    arr = [[int(a) for a in li.replace("\t", " ").strip().split(" ")] for li in lines[1:]]
     return {'size' : n, 'colors' : colors, 'arr' : arr}
 
 def check_valid(str):
@@ -325,7 +325,7 @@ def readAllFiles():
     writeFile("./answer.out", final_str)
 
 if __name__ == '__main__':
-    solveFromFiles(2,20)
+    solveFromFiles(23,50)
 #     graph = generate_graph(8,0,50)
 #     print brute_force_solve_str(graph)
 #     print greedy_solve_str(graph)
