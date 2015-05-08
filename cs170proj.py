@@ -8,8 +8,44 @@ import time
 
 import sys
 
+def swap_5opt(path, i, j, k, l, m):
+    all_paths = list(permutations([path[i:j], path[j:k], path[k:l], path[l:m], path[m:]]))
+    return [path[:i] + t[0] + t[1] + t[2] + t[3] + t[4] for t in all_paths]
+
+def swap_4opt(path, i, j, k, l):
+    all_paths = list(permutations([path[i:j], path[j:k], path[k:l], path[l:]]))
+    return [path[:i] + t[0] + t[1] + t[2] + t[3] for t in all_paths]
+
 def swap_3opt(path, i, j, k):
-    return [path[:i] + t[0] + t[1] + t[2] for t in list(permutations([path[i:j], path[j:k], path[k:]]))]# + list(permutations([path[:i], path[j:i-1:-1], path[j-1:k], path[k+1:]])) + list(permutations([path[:i], path[j:i-1:-1], path[k:j-1:-1], path[k+1:]])) + list(permutations([path[:i], path[i-1:j], path[k:j-1:-1], path[k+1:]]))
+    all_paths = list(permutations([path[i:j], path[j:k], path[k:]]))
+    return [path[:i] + t[0] + t[1] + t[2] for t in all_paths]# + list(permutations([path[:i], path[j:i-1:-1], path[j-1:k], path[k+1:]])) + list(permutations([path[:i], path[j:i-1:-1], path[k:j-1:-1], path[k+1:]])) + list(permutations([path[:i], path[i-1:j], path[k:j-1:-1], path[k+1:]]))
+
+#sequential optimizing
+def swap_5opt_optimize_path(path, arr, colors, size):
+    best_distance = get_cost_graph(arr, path)
+    for i in range(1, size - 4):
+        new_routes = swap_5opt(path, i, i+1, i+2, i+3, i+4)
+        for m in range(120):
+            if is_valid_path(colors, new_routes[m]):
+                if get_cost_graph(arr, new_routes[m]) < best_distance:
+                    return new_routes[m]
+    return path
+
+def swap_4opt_optimize_path(path, arr, colors, size):
+    best_distance = get_cost_graph(arr, path)
+    for i in range(1, size - 3):
+        #print str(i) + " " + str(j) + " " + str(k)
+         for j in range(i+1, size - 2):
+            for k in range(j+1, size - 1):
+                for l in range(k+1, size):
+                    new_routes = swap_4opt(path, i, j, k, l)
+                    for l in range(24):
+                        #new_routes[l] = new_routes[l][0] + new_routes[l][1] + new_routes[l][2] + new_routes[l][3]
+                        if is_valid_path(colors, new_routes[l]):
+                            if get_cost_graph(arr, new_routes[l]) < best_distance:
+                                return new_routes[l]
+    #print "finished 1 3opt"
+    return path
 
 def swap_3opt_optimize_path(path, arr, colors, size):
     best_distance = get_cost_graph(arr, path)
@@ -45,7 +81,15 @@ def swap_kopt_solve_path(arr, colors, size, path):
             if new_path != path:
                 path = new_path
             else:
-                break
+                new_path = swap_4opt_optimize_path(path, arr, colors, size)
+                if new_path != path:
+                    path = new_path
+                else:
+                    new_path = swap_5opt_optimize_path(path, arr, colors, size)
+                    if new_path != path:
+                        path = new_path
+                    else:
+                        break
     if not is_valid_path(colors, path):
         print "NOT VALID"
     return [path, get_cost_graph(arr, path)]
@@ -347,8 +391,8 @@ def readAllFiles():
     writeFile("./answer.out", final_str)
 
 if __name__ == '__main__':
-    readAllSolutions(496)
-    #solveFromFiles(41, 42)
+    #readAllSolutions(496)
+    solveFromFiles(1, 495)
 
     #solveFromFiles(300, 450)
 #     graph = generate_graph(8,0,50)
