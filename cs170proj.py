@@ -1,3 +1,4 @@
+from __future__ import division
 from random import randint, random, shuffle
 from itertools import permutations, groupby
 
@@ -390,9 +391,35 @@ def readAllFiles():
         i += 1
     writeFile("./answer.out", final_str)
 
+def compare(dir1, dir2, num):
+    sum1 = 0
+    sum2 = 0
+    weird = []
+    for i in range(1,num+1):
+        sol1 = eval(readFile(dir1 + str(i) + ".out"))[1]
+        sol2 = eval(readFile(dir2 + str(i) + ".out"))[1]
+
+        if(sol1 > 0):
+            percent = 100*(sol2-sol1)/sol1
+        else:
+            percent = 0
+
+        if percent > 0:
+            weird.append(i)
+
+        sum1 += sol1
+        sum2 += sol2
+
+        if percent != 0:
+            print str(sol1) + " to " + str(sol2) + " " + str(percent) + "% CHANGE"
+
+    print str(sum1) + " to " + str(sum2)
+    print weird
+
 if __name__ == '__main__':
-    #readAllSolutions(496)
-    solveFromFiles(1, 495)
+    readAllSolutions(496)
+    #solveFromFiles(int(sys.argv[1]), int(sys.argv[2]))
+    #compare("./solutions/", "./solutions2/", 495)
 
     #solveFromFiles(300, 450)
 #     graph = generate_graph(8,0,50)
